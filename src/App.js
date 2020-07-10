@@ -5,11 +5,13 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Route path="/">
-        <Home />
-      </Route>
-    </Router>
+    <div className="root">
+      <Router>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Router>
+    </div>
   );
 }
 

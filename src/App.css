@@ -1,1 +1,5 @@
-
+.root {
+  padding: 25px;
+  margin: auto;
+  max-width: 1280px;
+}
