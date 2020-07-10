@@ -18,23 +18,25 @@ const Home = () => {
     <div>
       <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
         {(props) => (
-          <Form>
+          <Form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <InputGroup className="mb-3">
               <Field as={FormControl} placeholder="City" name="city" />
               <InputGroup.Append>
                 <Button type="submit">Search</Button>
               </InputGroup.Append>
             </InputGroup>
+
+            <CurrentTemperature
+              handleChange={async unit => {setUnit(unit); return handleSubmit(props.values)}}
+              icon={`http://openweathermap.org/img/wn/${_.get(weather, 'weather[0].icon')}@2x.png`}
+              temperature={_.get(weather, 'main.temp')}
+              unit={unit}
+            />
           </Form>
         )}
       </Formik>
 
-      <CurrentTemperature
-        handleChange={setUnit}
-        icon={`http://openweathermap.org/img/wn/${_.get(weather, 'weather[0].icon')}@2x.png`}
-        temperature={_.get(weather, 'main.temp')}
-        unit={unit}
-      />
+      
     </div>
   );
 };
