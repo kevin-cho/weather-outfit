@@ -16,14 +16,14 @@ const CurrentTemperature = ({ handleChange, icon, temperature, unit }) => {
   return (
     <div className="CurrentTemperature">
       <img src={icon} alt="weather icon" />
-      <h1 className="mr-3">{Math.round(temperature)}</h1>
+      <h1 className="mr-3">{Math.round(temperature)}°</h1>
 
       <InputGroup>
         <InputGroup.Prepend>
-          <Button onClick={() => handleChange('metric')} variant={unit === 'metric' ? 'dark' : 'light'}>°C</Button>
+          <Button onClick={() => handleChange('metric')} variant={unit === 'metric' ? 'dark' : 'light'}>C</Button>
         </InputGroup.Prepend>
         <InputGroup.Append>
-          <Button onClick={() => handleChange('imperial')} variant={unit === 'imperial' ? 'dark' : 'light'}>°F</Button>
+          <Button onClick={() => handleChange('imperial')} variant={unit === 'imperial' ? 'dark' : 'light'}>F</Button>
         </InputGroup.Append>
       </InputGroup>
     </div>
