@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button, FormControl, InputGroup } from 'react-bootstrap';
 import { Field, Formik, Form } from 'formik';
 import _ from 'lodash';
+import { CSSTransition } from 'react-transition-group';
 import { WeatherAPI } from '../../api';
 import CurrentTemperature from '../../components/CurrentTemperature';
+import './Home.css';
 
 const Home = () => {
   const [weather, setWeather] = useState({});
@@ -26,12 +28,19 @@ const Home = () => {
               </InputGroup.Append>
             </InputGroup>
 
-            <CurrentTemperature
-              handleChange={async unit => {setUnit(unit); return handleSubmit(props.values)}}
-              icon={`http://openweathermap.org/img/wn/${_.get(weather, 'weather[0].icon')}@2x.png`}
-              temperature={_.get(weather, 'main.temp')}
-              unit={unit}
-            />
+            <CSSTransition
+              in={!_.isEmpty(weather)}
+              classNames="fade"
+              timeout={300}
+              unmountOnExit
+            >
+              <CurrentTemperature
+                handleChange={async unit => {setUnit(unit); return handleSubmit(props.values)}}
+                icon={`http://openweathermap.org/img/wn/${_.get(weather, 'weather[0].icon')}@2x.png`}
+                temperature={_.get(weather, 'main.temp')}
+                unit={unit}
+              />
+            </CSSTransition>
           </Form>
         )}
       </Formik>
