@@ -9,7 +9,7 @@ const propTypes = {
   icon: PropTypes.string.isRequired,
   temperature: PropTypes.number,
   unit: PropTypes.oneOf(['imperial', 'metric']).isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   className: PropTypes.string
 };
 

@@ -1,11 +1,11 @@
-.hourlyData {
+.temperatureStrip {
   display: flex;
-  align-self: flex-start;
+  justify-content: space-between;
   max-width: calc(var(--container-width) - 3rem);
   overflow: auto;
 }
 
-.hourlyData > div {
+.temperatureStrip > div {
   margin: 0.5rem;
 }
 

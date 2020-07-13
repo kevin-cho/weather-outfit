@@ -5,20 +5,22 @@ import _ from 'lodash';
 import { WeatherAPI } from '../../api';
 import CurrentTemperature from '../../components/CurrentTemperature';
 import HourlyTemperature from '../../components/HourlyTemperature';
+import DailyTemperature from '../../components/DailyTemperature';
 import { Fade } from '../../components/Transitions';
 import './Home.css';
 
 const Home = () => {
   const [weather, setWeather] = useState({});
   const [unit, setUnit] = useState('metric');
-  const hourlyData = _.chain(weather).get('hourly', []).slice(1, 25).value();
+  const hourlyData = _.get(weather, 'hourly', []).slice(1, 25);
+  const dailyData = _.get(weather, 'daily', []).slice(1, 8);
 
   const handleSubmit = async values => {
     const { data } = await WeatherAPI.oneCall({ lat: '33.441792', lon: '-94.037689', units: unit });
     setWeather(data);
   };
 
-  console.log({hourlyData})
+  console.log({dailyData})
 
   return (
     <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
@@ -28,7 +30,7 @@ const Home = () => {
             <Field as={FormControl} placeholder="City" name="city" />
             <InputGroup.Append>
               <Button type="submit" disabled={isSubmitting} className="submitButton">
-                {isSubmitting ? <Spinner animation="border" size="sm" /> : <span class="material-icons">keyboard_arrow_right</span>}
+                {isSubmitting ? <Spinner animation="border" size="sm" /> : <span className="material-icons">keyboard_arrow_right</span>}
               </Button>
             </InputGroup.Append>
           </InputGroup>
@@ -44,13 +46,26 @@ const Home = () => {
                 description={_.get(weather, 'current.weather[0].description')}
               />
 
-              <div className="hourlyData">
+              <div className="temperatureStrip mb-5">
                 {hourlyData.map(data => (
                   <HourlyTemperature
                     key={data.dt}
                     icon={WeatherAPI.getIcon(data.weather[0].icon)}
                     temperature={data.temp}
                     hour={new Date(data.dt * 1000).getHours()}
+                    description={data.weather[0].description}
+                  />
+                ))}
+              </div>
+
+              <div className="temperatureStrip">
+                {dailyData.map(data => (
+                  <DailyTemperature
+                    key={data.dt}
+                    icon={WeatherAPI.getIcon(data.weather[0].icon)}
+                    highTemperature={data.temp.max}
+                    lowTemperature={data.temp.min}
+                    day={new Date(data.dt * 1000).getDay()}
                     description={data.weather[0].description}
                   />
                 ))}
