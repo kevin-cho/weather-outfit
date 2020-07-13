@@ -1,0 +1,24 @@
+.hourlyData {
+  display: flex;
+  align-self: flex-start;
+  max-width: calc(var(--container-width) - 3rem);
+  overflow: auto;
+}
+
+.hourlyData > div {
+  margin: 0.5rem;
+}
+
+.centerContainer {
+  width: fit-content;
+  margin: auto
+}
+
+.submitButton {
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+}

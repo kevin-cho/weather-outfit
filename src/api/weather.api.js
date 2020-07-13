@@ -11,9 +11,16 @@ const currentWeather = params =>
     { params: { appid: apiKey, units: temperatureUnit, ...params } }
   );
 
-const getIcon = code => `http://openweathermap.org/img/wn/${code}@2x.png`;
+const oneCall = params =>
+  axios.get(
+    `${baseURL}/${version}/onecall`,
+    { params: { appid: apiKey, units: temperatureUnit, exclude: 'minutely', ...params } }
+  );
+
+const getIcon = (code, size = 'small') => `http://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
 
 export default {
   currentWeather,
+  oneCall,
   getIcon
 };
