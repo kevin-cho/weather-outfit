@@ -20,10 +20,10 @@ const CurrentTemperature = ({ handleChange, icon, temperature, unit }) => {
 
       <InputGroup>
         <InputGroup.Prepend>
-          <Button onClick={() => handleChange('metric')} variant={unit === 'metric' ? 'dark' : 'light'}>C</Button>
+          <Button type="submit" onClick={() => handleChange('metric')} variant={unit === 'metric' ? 'dark' : 'light'}>C</Button>
         </InputGroup.Prepend>
         <InputGroup.Append>
-          <Button onClick={() => handleChange('imperial')} variant={unit === 'imperial' ? 'dark' : 'light'}>F</Button>
+          <Button type="submit" onClick={() => handleChange('imperial')} variant={unit === 'imperial' ? 'dark' : 'light'}>F</Button>
         </InputGroup.Append>
       </InputGroup>
     </div>

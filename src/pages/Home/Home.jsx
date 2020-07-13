@@ -28,8 +28,8 @@ const Home = () => {
 
           <Fade in={!_.isEmpty(weather)}>
             <CurrentTemperature
-              handleChange={async unit => {setUnit(unit); return handleSubmit(props.values)}}
-              icon={`http://openweathermap.org/img/wn/${_.get(weather, 'weather[0].icon')}@2x.png`}
+              handleChange={unit => setUnit(unit)}
+              icon={WeatherAPI.getIcon(_.get(weather, 'weather[0].icon'))}
               temperature={_.get(weather, 'main.temp')}
               unit={unit}
             />

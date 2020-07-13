@@ -1,9 +1,13 @@
 .CurrentTemperature {
   display: flex;
   align-items: center;
-  padding-right: 30px;
+  padding-right: 2rem;
 }
 
 .CurrentTemperature button {
   padding-right: 1rem;
+}
+
+.CurrentTemperature img {
+  padding-right: 1.5rem;
 }
