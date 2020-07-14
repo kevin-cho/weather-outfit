@@ -1,13 +1,6 @@
 .slide-right-enter, .slide-right-appear {
   transform: translateX(-100%);
 }
-.slide-right-enter-active, .slide-right-appear-active {
-  transform: translateX(0%);
-  transition: transform 500ms;
-}
-.slide-right-exit {
-  transform: translateX(0%);
-}
 .slide-right-exit-active {
   transform: translateX(-100%);
   transition: transform 500ms;
@@ -16,14 +9,43 @@
 .slide-left-enter, .slide-left-appear {
   transform: translateX(100%);
 }
-.slide-left-enter-active, .slide-left-appear-active {
+.slide-left-exit-active {
+  transform: translateX(100%);
+  transition: transform 500ms;
+}
+
+.slide-right-enter-active,
+.slide-right-appear-active,
+.slide-right-exit,
+.slide-left-enter-active,
+.slide-left-appear-active
+.slide-left-exit {
   transform: translateX(0%);
   transition: transform 500ms;
 }
-.slide-left-exit {
-  transform: translateX(0%);
+
+.slide-down-enter, .slide-down-appear {
+  transform: translateY(-100%);
 }
-.slide-left-exit-active {
-  transform: translateX(100%);
+.slide-down-exit-active {
+  transform: translateY(-100%);
+  transition: transform 500ms;
+}
+
+.slide-up-enter, .slide-up-appear {
+  transform: translateY(100%);
+}
+.slide-up-exit-active {
+  transform: translateY(100%);
+  transition: transform 500ms;
+}
+
+.slide-down-enter-active,
+.slide-down-appear-active,
+.slide-down-exit,
+.slide-up-enter-active,
+.slide-up-appear-active
+.slide-up-exit {
+  transform: translateY(0%);
   transition: transform 500ms;
 }
