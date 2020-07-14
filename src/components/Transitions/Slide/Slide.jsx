@@ -1,11 +1,11 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import './Fade.css';
+import './Slide.css';
 
-const Fade = props => (
+const Slide = ({ direction = 'left', ...props }) => (
   <CSSTransition
-    classNames="fade"
-    timeout={300}
+    classNames={`slide-${direction}`}
+    timeout={500}
     unmountOnExit
     {...props}
   >
@@ -16,4 +16,4 @@ const Fade = props => (
   </CSSTransition>
 );
 
-export default Fade;
+export default Slide;
