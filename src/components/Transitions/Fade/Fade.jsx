@@ -2,7 +2,7 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './Fade.css';
 
-const Fade = props => (
+const Fade = ({ delay = 0, children, ...props }) => (
   <CSSTransition
     classNames="fade"
     timeout={300}
@@ -10,8 +10,8 @@ const Fade = props => (
     {...props}
   >
     {/* Extra <div> allows transition to work on multiple children nodes */}
-    <div>
-      {props.children}
+    <div style={{ transitionDelay: `${delay}ms`}}>
+      {children}
     </div>
   </CSSTransition>
 );

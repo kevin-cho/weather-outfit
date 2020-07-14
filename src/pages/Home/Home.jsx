@@ -21,66 +21,68 @@ const Home = () => {
     setWeather(data);
   };
 
-  console.log({dailyData})
-
   return (
-    <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
-      {({ isSubmitting }) => (
-        <Form>
-          <InputGroup className="mb-5">
-            <Field as={FormControl} placeholder="City" name="city" />
-            <InputGroup.Append>
-              <Button type="submit" disabled={isSubmitting} className="submitButton">
-                {isSubmitting ? <Spinner animation="border" size="sm" /> : <span className="material-icons">keyboard_arrow_right</span>}
-              </Button>
-            </InputGroup.Append>
-          </InputGroup>
+    <div className="Home">
+      <span className="material-icons clearButton" onClick={() => setWeather({})}>clear</span>
 
-          {/* <TransitionGroup className="test"> */}
-          <Fade in={!_.isEmpty(weather)}>
-            <CurrentTemperature
-              className="centerContainer mb-4"
-              handleChange={unit => setUnit(unit)}
-              icon={WeatherAPI.getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
-              temperature={_.get(weather, 'current.temp')}
-              unit={unit}
-              description={_.get(weather, 'current.weather[0].description')}
-            />
-          </Fade>
-          
-          <Slide in={!_.isEmpty(weather)} direction="left">
-            <FadedEdge position="right" className="mb-5">
+      <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+          <Form>
+            <InputGroup className="mb-5">
+              <Field as={FormControl} placeholder="City" name="city" />
+              <InputGroup.Append>
+                <Button type="submit" disabled={isSubmitting} className="submitButton">
+                  {isSubmitting ? <Spinner animation="border" size="sm" /> : <span className="material-icons">keyboard_arrow_right</span>}
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
+
+            {/* <TransitionGroup className="test"> */}
+            <Fade in={!_.isEmpty(weather)}>
+              <CurrentTemperature
+                className="centerContainer mb-4"
+                handleChange={unit => setUnit(unit)}
+                icon={WeatherAPI.getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
+                temperature={_.get(weather, 'current.temp')}
+                unit={unit}
+                description={_.get(weather, 'current.weather[0].description')}
+              />
+            </Fade>
+            
+            <Slide in={!_.isEmpty(weather)} direction="left">
+              <FadedEdge position="right" className="mb-5">
+                <div className="temperatureStrip">
+                  {hourlyData.map(data => (
+                    <HourlyTemperature
+                      key={data.dt}
+                      icon={WeatherAPI.getIcon(data.weather[0].icon)}
+                      temperature={data.temp}
+                      hour={new Date(data.dt * 1000).getHours()}
+                      description={data.weather[0].description}
+                    />
+                  ))}
+                </div>
+              </FadedEdge>
+            </Slide>
+
+            <Slide in={!_.isEmpty(weather)} direction="right">
               <div className="temperatureStrip">
-                {hourlyData.map(data => (
-                  <HourlyTemperature
+                {dailyData.map(data => (
+                  <DailyTemperature
                     key={data.dt}
                     icon={WeatherAPI.getIcon(data.weather[0].icon)}
-                    temperature={data.temp}
-                    hour={new Date(data.dt * 1000).getHours()}
+                    highTemperature={data.temp.max}
+                    lowTemperature={data.temp.min}
+                    day={new Date(data.dt * 1000).getDay()}
                     description={data.weather[0].description}
                   />
                 ))}
               </div>
-            </FadedEdge>
-          </Slide>
-
-          <Slide in={!_.isEmpty(weather)} direction="right">
-            <div className="temperatureStrip">
-              {dailyData.map(data => (
-                <DailyTemperature
-                  key={data.dt}
-                  icon={WeatherAPI.getIcon(data.weather[0].icon)}
-                  highTemperature={data.temp.max}
-                  lowTemperature={data.temp.min}
-                  day={new Date(data.dt * 1000).getDay()}
-                  description={data.weather[0].description}
-                />
-              ))}
-            </div>
-          </Slide>
-        </Form>
-      )}
-    </Formik>
+            </Slide>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
