@@ -15,7 +15,7 @@ const Slide = ({ direction = 'left', children, ...props }) => (
     {...props}
   >
     {/* Extra <div> allows transition to work on multiple children nodes */}
-    <div>{children}</div>
+    <div style={{ overflow: 'hidden' }}>{children}</div>
   </CSSTransition>
 );
 

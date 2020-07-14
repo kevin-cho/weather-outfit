@@ -8,6 +8,7 @@ import HourlyTemperature from '../../components/HourlyTemperature';
 import DailyTemperature from '../../components/DailyTemperature';
 import FadedEdge from '../../components/FadedEdge';
 import { Fade, Slide } from '../../components/Transitions';
+import RippleButton from '../../components/RippleButton';
 import './Home.css';
 
 const Home = () => {
@@ -23,7 +24,7 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <span className="material-icons clearButton" onClick={() => setWeather({})}>clear</span>
+      <RippleButton onClick={() => setWeather({})} icon="clear" round />
 
       <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
