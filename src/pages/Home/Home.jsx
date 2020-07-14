@@ -6,6 +6,7 @@ import { WeatherAPI } from '../../api';
 import CurrentTemperature from '../../components/CurrentTemperature';
 import HourlyTemperature from '../../components/HourlyTemperature';
 import DailyTemperature from '../../components/DailyTemperature';
+import FadedEdge from '../../components/FadedEdge';
 import { Fade } from '../../components/Transitions';
 import './Home.css';
 
@@ -46,17 +47,19 @@ const Home = () => {
                 description={_.get(weather, 'current.weather[0].description')}
               />
 
-              <div className="temperatureStrip mb-5">
-                {hourlyData.map(data => (
-                  <HourlyTemperature
-                    key={data.dt}
-                    icon={WeatherAPI.getIcon(data.weather[0].icon)}
-                    temperature={data.temp}
-                    hour={new Date(data.dt * 1000).getHours()}
-                    description={data.weather[0].description}
-                  />
-                ))}
-              </div>
+              <FadedEdge position="right" className="mb-5">
+                <div className="temperatureStrip">
+                  {hourlyData.map(data => (
+                    <HourlyTemperature
+                      key={data.dt}
+                      icon={WeatherAPI.getIcon(data.weather[0].icon)}
+                      temperature={data.temp}
+                      hour={new Date(data.dt * 1000).getHours()}
+                      description={data.weather[0].description}
+                    />
+                  ))}
+                </div>
+              </FadedEdge>
 
               <div className="temperatureStrip">
                 {dailyData.map(data => (
