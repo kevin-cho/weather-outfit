@@ -1,0 +1,17 @@
+.dailyTemperature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > .temperatures {
+    text-align: center;
+
+    span:first-child {
+      color: #cc2f08;
+    }
+
+    span:last-child {
+      color: #077cb3;
+    }
+  }
+}

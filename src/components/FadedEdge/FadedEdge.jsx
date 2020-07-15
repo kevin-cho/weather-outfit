@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import './FadedEdge.css';
+import styles from './FadedEdge.module.scss';
 
 const propTypes = {
-  position: PropTypes.oneOf(['left', 'right']),
-
+  position: PropTypes.oneOf(['left', 'right'])
 };
 
 const FadedEdge = ({ position = 'right', children, className }) => (
-  <div className={classNames('FadedEdge', className)}>
-    <div className={classNames('overlay', position)} />
+  <div className={`${styles.fadedEdge} ${className}`}>
+    <div className={`${styles.overlay} ${styles[position]}`} />
     {children}
   </div>
 );

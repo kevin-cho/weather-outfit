@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, InputGroup } from 'react-bootstrap';
 import _ from 'lodash';
-import './CurrentTemperature.css';
+import styles from './CurrentTemperature.module.scss';
 
 const propTypes = {
   handleChange: PropTypes.func.isRequired,
@@ -17,7 +17,7 @@ const CurrentTemperature = ({ handleChange, icon, temperature, unit, description
   if (!temperature) return null;
   
   return (
-    <div className={`CurrentTemperature ${className}`}>
+    <div className={`${styles.currentTemperature} ${className}`}>
       <img src={icon} alt="weather icon" title={_.capitalize(description)} />
       <h1 className="mr-3">{Math.round(temperature)}°</h1>
 

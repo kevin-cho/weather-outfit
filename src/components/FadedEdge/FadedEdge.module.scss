@@ -1,0 +1,20 @@
+.fadedEdge {
+  position: relative;
+
+  > .overlay {
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+  }
+
+  > .right {
+    background: -webkit-linear-gradient(right, white, rgba(0,0,0,0));
+  }
+
+  > .left {
+    background: -webkit-linear-gradient(left, white, rgba(0,0,0,0));
+  }
+}

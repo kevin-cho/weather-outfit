@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import './DailyTemperature.css';
+import styles from './DailyTemperature.module.scss';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -14,10 +14,10 @@ const propTypes = {
 };
 
 const DailyTemperature = ({ icon, highTemperature, lowTemperature, day, description }) => (
-  <div className="DailyTemperature">
+  <div className={styles.dailyTemperature}>
     <div>{_.isNumber(day) ? days[day] : day}</div>
     <img src={icon} title={_.capitalize(description)} />
-    <div className="temperatures">
+    <div className={styles.temperatures}>
       <span>{Math.round(highTemperature)}°</span> <span>{Math.round(lowTemperature)}°</span>
     </div>
   </div>

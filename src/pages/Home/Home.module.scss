@@ -5,8 +5,10 @@
   overflow: auto;
 }
 
-.temperatureStrip > div {
-  margin: 0.5rem;
+.temperatureStrip {
+  > div {
+    margin: 0.5rem;
+  }
 }
 
 .centerContainer {

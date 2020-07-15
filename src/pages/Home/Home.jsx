@@ -9,7 +9,7 @@ import DailyTemperature from '../../components/DailyTemperature';
 import FadedEdge from '../../components/FadedEdge';
 import { Fade, Slide } from '../../components/Transitions';
 import RippleButton from '../../components/RippleButton';
-import './Home.css';
+import styles from './Home.module.scss';
 
 const Home = () => {
   const [weather, setWeather] = useState({});
@@ -23,7 +23,7 @@ const Home = () => {
   };
 
   return (
-    <div className="Home">
+    <div>
       <RippleButton onClick={() => setWeather({})} icon="clear" round />
 
       <Formik initialValues={{ city: 'Toronto' }} onSubmit={handleSubmit}>
@@ -32,16 +32,15 @@ const Home = () => {
             <InputGroup className="mb-5">
               <Field as={FormControl} placeholder="City" name="city" />
               <InputGroup.Append>
-                <Button type="submit" disabled={isSubmitting} className="submitButton">
+                <Button type="submit" disabled={isSubmitting} className={styles.submitButton}>
                   {isSubmitting ? <Spinner animation="border" size="sm" /> : <span className="material-icons">keyboard_arrow_right</span>}
                 </Button>
               </InputGroup.Append>
             </InputGroup>
 
-            {/* <TransitionGroup className="test"> */}
             <Fade in={!_.isEmpty(weather)}>
               <CurrentTemperature
-                className="centerContainer mb-4"
+                className={`${styles.centerContainer} mb-4`}
                 handleChange={unit => setUnit(unit)}
                 icon={WeatherAPI.getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
                 temperature={_.get(weather, 'current.temp')}
@@ -52,7 +51,7 @@ const Home = () => {
             
             <Slide in={!_.isEmpty(weather)} direction="left">
               <FadedEdge position="right" className="mb-5">
-                <div className="temperatureStrip">
+                <div className={styles.temperatureStrip}>
                   {hourlyData.map(data => (
                     <HourlyTemperature
                       key={data.dt}
@@ -67,7 +66,7 @@ const Home = () => {
             </Slide>
 
             <Slide in={!_.isEmpty(weather)} direction="right">
-              <div className="temperatureStrip">
+              <div className={styles.temperatureStrip}>
                 {dailyData.map(data => (
                   <DailyTemperature
                     key={data.dt}

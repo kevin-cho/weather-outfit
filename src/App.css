@@ -3,7 +3,7 @@
 }
 
 .root {
-  padding: 3rem 1.5rem;
+  padding: 4rem 1.5rem 0;
   margin: auto;
   max-width: var(--container-width);
 }

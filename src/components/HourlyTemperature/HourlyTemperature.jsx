@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import './HourlyTemperature.css';
+import styles from './HourlyTemperature.module.scss';
 
 const propTypes = {
   icon: PropTypes.string.isRequired,
@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const HourlyTemperature = ({ icon, temperature, hour, description }) => (
-  <div className="HourlyTemperature">
+  <div className={styles.hourlyTemperature}>
     <div>{hour}:00</div>
     <img src={icon} title={_.capitalize(description)} />
     <div>{Math.round(temperature)}°</div>
