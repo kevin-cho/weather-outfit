@@ -22,6 +22,8 @@ const Home = () => {
     setWeather(data);
   };
 
+  WeatherAPI.usePreloadedIcons();
+
   return (
     <div>
       <RippleButton onClick={() => setWeather({})} icon="clear" round />
