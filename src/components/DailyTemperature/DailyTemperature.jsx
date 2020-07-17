@@ -16,7 +16,7 @@ const propTypes = {
 const DailyTemperature = ({ icon, highTemperature, lowTemperature, day, description }) => (
   <div className={styles.dailyTemperature}>
     <div>{_.isNumber(day) ? days[day] : day}</div>
-    <img src={icon} title={_.capitalize(description)} />
+    <img src={icon} title={_.capitalize(description)} alt={description} />
     <div className={styles.temperatures}>
       <span>{Math.round(highTemperature)}°</span> <span>{Math.round(lowTemperature)}°</span>
     </div>

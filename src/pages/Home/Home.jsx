@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Button, FormControl, InputGroup, Spinner } from 'react-bootstrap';
-import { Field, Formik, Form } from 'formik';
 import _ from 'lodash';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { WeatherAPI, LocationAPI } from '../../api';
@@ -17,7 +15,6 @@ const Home = () => {
   const [weather, setWeather] = useState({});
   const [unit, setUnit] = useState('metric');
   const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState([]);
   const hourlyData = _.get(weather, 'hourly', []).slice(1, 25);
   const dailyData = _.get(weather, 'daily', []).slice(1, 8);
@@ -41,12 +38,10 @@ const Home = () => {
   };
 
   const handleSearch = async query => {
-    setLoading(true);
     const { data = [] } = await LocationAPI.autocomplete({ query });
-    setLoading(false);
 
     const uniqueData = _.uniqBy(data, ({ address }) => `${address.name}, ${address.country}`);
-    const options = uniqueData.map(({ address, lat, lon }) => ({ label:  `${address.name}, ${address.country}`, lat, lon }));
+    const options = uniqueData.map(({ address, lat, lon }) => ({ label: `${address.name}, ${address.country}`, lat, lon }));
 
     setCities(options);
   };
@@ -60,10 +55,11 @@ const Home = () => {
       <AsyncTypeahead
         className="mb-4"
         id="city-search"
-        isLoading={loading}
+        isLoading={false}
         onSearch={handleSearch}
         onChange={selected => handleSubmit(selected)}
         options={cities}
+        placeholder="Search for a city"
       />
 
       <Fade in={!_.isEmpty(weather)}>

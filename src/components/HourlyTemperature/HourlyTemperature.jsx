@@ -13,7 +13,7 @@ const propTypes = {
 const HourlyTemperature = ({ icon, temperature, hour, description }) => (
   <div className={styles.hourlyTemperature}>
     <div>{hour}:00</div>
-    <img src={icon} title={_.capitalize(description)} />
+    <img src={icon} title={_.capitalize(description)} alt={description} />
     <div>{Math.round(temperature)}°</div>
   </div>
 );
