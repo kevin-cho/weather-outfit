@@ -1,3 +1,5 @@
+// API Docs: https://openweathermap.org/api
+
 import { useEffect } from 'react';
 import axios from 'axios';
 
