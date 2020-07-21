@@ -7,15 +7,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Go over to [OpenWeatherMap](https://openweathermap.org/guide) to sign up for an API key.
 * Go over to [LocationIQ](https://locationiq.com/register) to sign up for an API key.
 * Create a `.env` file with the environment variables `OPEN_WEATHER_MAP_API_KEY={your_key}` and `LOCATION_IQ_API_KEY={your_key}`.
+* Run `npm install -g nodemon` to globally install `nodemon` to monitor your server.
+* Run `npm install -g concurrently` to globally install `concurrently` in order to run both the server and client at the same time.
+* From the project directory, run `npm install` to install server and client dependencies.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Starts up the server and client together in development mode.

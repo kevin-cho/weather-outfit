@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { getIcon, usePreloadedIcons } from '../../api/weather.helpers';
 import CurrentTemperature from '../../components/CurrentTemperature';
 import HourlyTemperature from '../../components/HourlyTemperature';
 import DailyTemperature from '../../components/DailyTemperature';
@@ -11,6 +10,22 @@ import { Fade, Slide } from '../../components/Transitions';
 import RippleButton from '../../components/RippleButton';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import styles from './Home.module.scss';
+
+const getIcon = (code, size = 'small') => `http://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
+
+const usePreloadedIcons = () => useEffect(() => {
+  const codes = ['01', '02', '03', '04', '09', '10', '11', '13', '50'];
+  const colours = ['d', 'n'];
+  const sizes = ['small', 'large'];
+
+  codes.forEach(code => {
+    colours.forEach(colour => {
+      sizes.forEach(size => {
+        new Image().src = getIcon(code + colour, size);
+      })
+    })
+  })
+}, []);
 
 const Home = () => {
   const [weather, setWeather] = useState({});
@@ -26,7 +41,7 @@ const Home = () => {
     const [{ lat, lon }] = val;
     const { data } = await axios.get(
       '/api/weather/onecall',
-      { params: { lat, lon, units: val } }
+      { params: { lat, lon, units: unit } }
     );
 
     setWeather(data);
