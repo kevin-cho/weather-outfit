@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Go over to [OpenWeatherMap](https://openweathermap.org/guide) to sign up for an API key.
 * Go over to [LocationIQ](https://locationiq.com/register) to sign up for an API key.
-* Create a `.env.local` file with the environment variables `REACT_APP_OPEN_WEATHER_MAP_API_KEY={your_key}` and `REACT_APP_LOCATION_IQ_API_KEY={your_key}`.
+* Create a `.env` file with the environment variables `OPEN_WEATHER_MAP_API_KEY={your_key}` and `LOCATION_IQ_API_KEY={your_key}`.
 
 ## Available Scripts
 

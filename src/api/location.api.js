@@ -1,17 +1,17 @@
 // API Docs: https://locationiq.com/docs#autocomplete
 
-import axios from 'axios';
+const axios = require('axios');
+const express = require('express');
 
-const apiKey = process.env.REACT_APP_LOCATION_IQ_API_KEY;
+const app = module.exports = express();
+const apiKey = process.env.LOCATION_IQ_API_KEY;
 const version = '1';
 const baseURL = 'https://api.locationiq.com';
 
-const autocomplete = ({ query: q, ...params}) =>
-  axios.get(
+app.get('/api/location', async (req, res) => {
+  const { data } = await axios.get(
     `${baseURL}/v${version}/autocomplete.php`,
-    { params: { key: apiKey, q, tag: 'place:city', ...params } }
+    { params: { key: apiKey, tag: 'place:city', ...req.query } }
   );
-
-export default {
-  autocomplete
-};
+  res.send(data);
+});

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
+import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { WeatherAPI, LocationAPI } from '../../api';
+import { getIcon, usePreloadedIcons } from '../../api/weather.helpers';
 import CurrentTemperature from '../../components/CurrentTemperature';
 import HourlyTemperature from '../../components/HourlyTemperature';
 import DailyTemperature from '../../components/DailyTemperature';
@@ -23,7 +24,10 @@ const Home = () => {
     if (_.isEmpty(val)) return;
 
     const [{ lat, lon }] = val;
-    const { data } = await WeatherAPI.oneCall({ lat, lon, units: unit });
+    const { data } = await axios.get(
+      '/api/weather/onecall',
+      { params: { lat, lon, units: val } }
+    );
 
     setWeather(data);
     setSelected(val);
@@ -31,22 +35,29 @@ const Home = () => {
 
   const handleUnitChange = async val => {
     const [{ lat, lon }] = selected;
-    const { data } = await WeatherAPI.oneCall({ lat, lon, units: val });
+    const { data } = await axios.get(
+      '/api/weather/onecall',
+      { params: { lat, lon, units: val } }
+    );
 
     setWeather(data);
     setUnit(val);
   };
 
   const handleSearch = async query => {
-    const { data = [] } = await LocationAPI.autocomplete({ query });
+    const { data = [] } = await axios.get(
+      '/api/location',
+      { params: { q: query, limit: 5 } }
+    );
+    const getLabel = ({ address }) => `${address.name}, ${address.state}, ${address.country}`;
 
-    const uniqueData = _.uniqBy(data, ({ address }) => `${address.name}, ${address.country}`);
-    const options = uniqueData.map(({ address, lat, lon }) => ({ label: `${address.name}, ${address.country}`, lat, lon }));
+    const uniqueData = _.uniqBy(data, getLabel);
+    const options = uniqueData.map(({ lat, lon, ...rest }) => ({ label: getLabel(rest), lat, lon }));
 
     setCities(options);
   };
 
-  WeatherAPI.usePreloadedIcons();
+  usePreloadedIcons();
 
   return (
     <div>
@@ -66,11 +77,23 @@ const Home = () => {
         <CurrentTemperature
           className={styles.currentTemperature}
           handleChange={val => handleUnitChange(val)}
-          icon={WeatherAPI.getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
+          icon={getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
           temperature={_.get(weather, 'current.temp')}
           unit={unit}
           description={_.get(weather, 'current.weather[0].description')}
         />
+        
+        <span
+          className="material-icons"
+          style={{ transform: `rotate(${_.get(weather, 'current.wind_deg', 0) + 180}deg)` }}
+        >
+          north
+        </span>
+        Wind <span>{Math.round(_.get(weather, 'current.wind_speed', 0) * 3.6)} km/h</span>
+
+        Humidity <span>{Math.round(_.get(weather, 'current.humidity', 0))}%</span>
+
+        Rain <span>{Math.round(_.get(weather, 'current.rain', 0))}%</span>
       </Fade>
       
       <Slide in={!_.isEmpty(weather)} direction="left">
@@ -79,7 +102,7 @@ const Home = () => {
             {hourlyData.map(data => (
               <HourlyTemperature
                 key={data.dt}
-                icon={WeatherAPI.getIcon(data.weather[0].icon)}
+                icon={getIcon(data.weather[0].icon)}
                 temperature={data.temp}
                 hour={new Date(data.dt * 1000).getHours()}
                 description={data.weather[0].description}
@@ -94,7 +117,7 @@ const Home = () => {
           {dailyData.map(data => (
             <DailyTemperature
               key={data.dt}
-              icon={WeatherAPI.getIcon(data.weather[0].icon)}
+              icon={getIcon(data.weather[0].icon)}
               highTemperature={data.temp.max}
               lowTemperature={data.temp.min}
               day={new Date(data.dt * 1000).getDay()}

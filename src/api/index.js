@@ -1,7 +1,7 @@
-import WeatherAPI from './weather.api';
-import LocationAPI from './location.api';
+const WeatherAPI = require('./weather.api');
+const LocationAPI = require('./location.api');
 
-export {
+module.exports = {
   WeatherAPI,
   LocationAPI
 };

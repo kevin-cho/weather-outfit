@@ -1,44 +1,39 @@
 // API Docs: https://openweathermap.org/api
 
-import { useEffect } from 'react';
-import axios from 'axios';
+const axios = require('axios');
+const express = require('express');
 
-const apiKey = process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY;
+const app = module.exports = express();
+const apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
 const version = '2.5';
-const baseURL = 'http://api.openweathermap.org/data';
+const baseURL = 'https://api.openweathermap.org/data';
 const temperatureUnit = 'metric';
 
-const currentWeather = params =>
-  axios.get(
-    `${baseURL}/${version}/weather`,
-    { params: { appid: apiKey, units: temperatureUnit, ...params } }
-  );
+// const currentWeather = params =>
+//   axios.get(
+//     `${baseURL}/${version}/weather`,
+//     { params: { appid: apiKey, units: temperatureUnit, ...params } }
+//   );
 
-const oneCall = params =>
-  axios.get(
+app.get('/api/weather/onecall', async (req, res) => {
+  console.log(req.query)
+
+  const { data } = await axios.get(
     `${baseURL}/${version}/onecall`,
-    { params: { appid: apiKey, units: temperatureUnit, exclude: 'minutely', ...params } }
+    { params: { appid: apiKey, units: temperatureUnit, exclude: 'minutely', ...req.query } }
   );
 
-const getIcon = (code, size = 'small') => `http://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
+  console.log(data)
 
-const usePreloadedIcons = () => useEffect(() => {
-  const codes = ['01', '02', '03', '04', '09', '10', '11', '13', '50'];
-  const colours = ['d', 'n'];
-  const sizes = ['small', 'large'];
+  res.send(data);
+});
 
-  codes.forEach(code => {
-    colours.forEach(colour => {
-      sizes.forEach(size => {
-        new Image().src = getIcon(code + colour, size);
-      })
-    })
-  })
-}, []);
-
-export default {
-  currentWeather,
-  oneCall,
-  getIcon,
-  usePreloadedIcons
-};
+// export default {
+//   currentWeather,
+//   oneCall,
+//   getIcon,
+//   usePreloadedIcons
+// };
+// export default {
+//   app
+// };
