@@ -11,7 +11,7 @@ import RippleButton from '../../components/RippleButton';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import styles from './Home.module.scss';
 
-const getIcon = (code, size = 'small') => `http://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
+const getIcon = (code, size = 'small') => `https://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
 
 const usePreloadedIcons = () => useEffect(() => {
   const codes = ['01', '02', '03', '04', '09', '10', '11', '13', '50'];
@@ -97,18 +97,6 @@ const Home = () => {
           unit={unit}
           description={_.get(weather, 'current.weather[0].description')}
         />
-        
-        <span
-          className="material-icons"
-          style={{ transform: `rotate(${_.get(weather, 'current.wind_deg', 0) + 180}deg)` }}
-        >
-          north
-        </span>
-        Wind <span>{Math.round(_.get(weather, 'current.wind_speed', 0) * 3.6)} km/h</span>
-
-        Humidity <span>{Math.round(_.get(weather, 'current.humidity', 0))}%</span>
-
-        Rain <span>{Math.round(_.get(weather, 'current.rain', 0))}%</span>
       </Fade>
       
       <Slide in={!_.isEmpty(weather)} direction="left">

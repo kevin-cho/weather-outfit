@@ -9,7 +9,6 @@ const version = '1';
 const baseURL = 'https://api.locationiq.com';
 
 app.get('/api/location', async (req, res) => {
-  console.log('-------------------', apiKey, req.query)
   const { data } = await axios.get(
     `${baseURL}/v${version}/autocomplete.php`,
     { params: { key: apiKey, tag: 'place:city', ...req.query } }
