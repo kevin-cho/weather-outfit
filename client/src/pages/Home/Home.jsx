@@ -64,7 +64,12 @@ const Home = () => {
       '/api/location',
       { params: { q: query, limit: 5 } }
     );
-    const getLabel = ({ address }) => `${address.name}, ${address.state}, ${address.country}`;
+    const getLabel = ({ address }) => _
+      .chain([address.name, address.state, address.country])
+      .compact()
+      .uniq()
+      .join(', ')
+      .value();
 
     const uniqueData = _.uniqBy(data, getLabel);
     const options = uniqueData.map(({ lat, lon, ...rest }) => ({ label: getLabel(rest), lat, lon }));
@@ -79,7 +84,9 @@ const Home = () => {
       <RippleButton onClick={() => setWeather({})} icon="clear" round />
 
       <AsyncTypeahead
+        autoFocus
         className="mb-4"
+        clearButton
         id="city-search"
         isLoading={false}
         onSearch={handleSearch}
@@ -88,15 +95,37 @@ const Home = () => {
         placeholder="Search for a city"
       />
 
-      <Fade in={!_.isEmpty(weather)}>
+      <Fade in={!_.isEmpty(weather)} className={styles.mainStats}>
         <CurrentTemperature
-          className={styles.currentTemperature}
           handleChange={val => handleUnitChange(val)}
           icon={getIcon(_.get(weather, 'current.weather[0].icon'), 'large')}
           temperature={_.get(weather, 'current.temp')}
           unit={unit}
           description={_.get(weather, 'current.weather[0].description')}
         />
+        
+        <div>
+          <div className={styles.iconLabel}>
+            <span
+              className="material-icons"
+              style={{ transform: `rotate(${_.get(weather, 'current.wind_deg', 0) + 180}deg)` }}
+              title="Wind speed"
+            >
+              north
+            </span>
+            <span>{Math.round(_.get(weather, 'current.wind_speed', 0) * 3.6)} km/h</span>
+          </div>
+
+          <div className={styles.iconLabel}>
+            <span className="material-icons" title="Humidity">waves</span>
+            <span>{Math.round(_.get(weather, 'current.humidity', 0))}%</span>
+          </div>
+
+          <div className={styles.iconLabel}>
+            <span className="material-icons" title="Precipitation">grain</span>
+            <span>{Math.round(_.get(weather, 'daily[0].pop', 0) * 100)}%</span>
+          </div>
+        </div>
       </Fade>
       
       <Slide in={!_.isEmpty(weather)} direction="left">

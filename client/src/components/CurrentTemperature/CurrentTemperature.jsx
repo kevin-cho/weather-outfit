@@ -13,7 +13,7 @@ const propTypes = {
   className: PropTypes.string
 };
 
-const CurrentTemperature = ({ handleChange, icon, temperature, unit, description, className }) => {
+const CurrentTemperature = ({ handleChange, icon, temperature, unit, description, className = '' }) => {
   if (!temperature) return null;
   
   return (

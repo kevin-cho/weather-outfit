@@ -11,16 +11,29 @@
   }
 }
 
-.currentTemperature {
-  width: fit-content;
-  margin: 4rem auto;
-}
-
-.submitButton {
-  padding-top: 0;
-  padding-bottom: 0;
+.mainStats {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 50px;
+  margin: 4rem auto;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  > div {
+    margin: auto 0;
+  }
+
+  .iconLabel {
+    display: flex;
+
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+
+    > span:first-child {
+      margin-right: 5px;
+    }
+  }
 }
