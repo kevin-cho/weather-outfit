@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -10,6 +10,7 @@ import { Fade, Slide } from '../../components/Transitions';
 import RippleButton from '../../components/RippleButton';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import styles from './Home.module.scss';
+import { text } from 'body-parser';
 
 const getIcon = (code, size = 'small') => `https://openweathermap.org/img/wn/${code}${size === 'large' ? '@2x' : ''}.png`;
 
@@ -27,6 +28,19 @@ const usePreloadedIcons = () => useEffect(() => {
   })
 }, []);
 
+const convertWindSpeedByUnit = (speed, unit) => {
+  switch (unit) {
+    case 'metric':
+      // m/s -> km/h
+      return `${Math.round(speed * 3.6)} km/h`;
+    case 'imperial':
+      // mph
+      return `${Math.round(speed)} mph`;
+    default:
+      return 'N/A';
+  }
+}
+
 const Home = () => {
   const [weather, setWeather] = useState({});
   const [unit, setUnit] = useState('metric');
@@ -34,6 +48,7 @@ const Home = () => {
   const [selected, setSelected] = useState([]);
   const hourlyData = _.get(weather, 'hourly', []).slice(1, 25);
   const dailyData = _.get(weather, 'daily', []).slice(1, 8);
+  const textInput = useRef(null);
 
   const handleSubmit = async val => {
     if (_.isEmpty(val)) return;
@@ -44,6 +59,8 @@ const Home = () => {
       { params: { lat, lon, units: unit } }
     );
 
+    // Blur the input field to remove mobile keyboard after submission
+    textInput.current.blur();
     setWeather(data);
     setSelected(val);
   };
@@ -93,6 +110,7 @@ const Home = () => {
         onChange={selected => handleSubmit(selected)}
         options={cities}
         placeholder="Search for a city"
+        ref={textInput}
       />
 
       <Fade in={!_.isEmpty(weather)} className={styles.mainStats}>
@@ -113,7 +131,7 @@ const Home = () => {
             >
               north
             </span>
-            <span>{Math.round(_.get(weather, 'current.wind_speed', 0) * 3.6)} km/h</span>
+            <span>{convertWindSpeedByUnit(_.get(weather, 'current.wind_speed', 0), unit)}</span>
           </div>
 
           <div className={styles.iconLabel}>
