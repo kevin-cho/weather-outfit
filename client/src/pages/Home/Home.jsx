@@ -176,6 +176,12 @@ const Home = () => {
           ))}
         </div>
       </Slide>
+    
+      <nav className={styles.footer}>
+        <a href="https://github.com/kevin-cho/weather-outfit" target="_blank">
+          <i class="fa fa-github-square" />
+        </a>
+      </nav>
     </div>
   );
 };
